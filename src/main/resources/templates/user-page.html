@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<div>
+    <div>
+        <h2>User</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.getRoles()}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <h4><a href="/logout">Выйти</a></h4>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<p>
+    <a href="/admin/new">Add User</a>
+    <a href="/admin/info">User Info</a>
+</p>
+<h2>Users</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Update</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user, iStat : ${users}">
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.getRoles()}"></td>
+        <td><a th:href="@{/admin/edit/{id}(id=${user.id})}">Edit</a></td>
+        <td><a th:href="@{/admin/delete/{id}(id=${user.id})}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+<h4><a href="/logout">Выйти</a></h4>
+</body>
+</html>
