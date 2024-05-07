@@ -3,10 +3,12 @@ package com.example.crud.controller;
 import com.example.crud.model.User;
 import com.example.crud.repository.RoleRepository;
 import com.example.crud.service.UserDetailsServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -39,21 +41,34 @@ public class AdminController {
     }
 
     @PostMapping("/createUser")
-    public String createUser(@ModelAttribute("user") User user) {
-        userDetailsServiceImpl.saveUser(user);
+    public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "new-user-page";
+        }
+        if (!userDetailsServiceImpl.saveUser(user)) {
+            model.addAttribute("NameError", "Пользователь с таким именем уже существует");
+            return "new-user-page";
+        }
         return "redirect:/admin";
     }
 
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable("id") Long id, Model model) {
-        userDetailsServiceImpl.findUserById(id).ifPresent(o -> model.addAttribute("user", o));
+        model.addAttribute("user", userDetailsServiceImpl.findUserById(id));
         model.addAttribute("allRoles", roleRepository.findAll());
         return "edit-user-page";
     }
 
     @PostMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") User user) {
+    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model, Authentication authentication) {
+        if (bindingResult.hasErrors() && !bindingResult.hasFieldErrors("password")) {
+            model.addAttribute("allRoles", roleRepository.findAll());
+            return "edit-user-page";
+        }
         userDetailsServiceImpl.updateUser(user);
+        if (userDetailsServiceImpl.isUser(user, authentication)) {
+            return "redirect:/login";
+        }
         return "redirect:/admin";
     }
 

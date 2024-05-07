@@ -1,6 +1,8 @@
 package com.example.crud.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,15 +26,19 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(unique = true)
+    @NotEmpty(message = "Поле не должно быть пустым!")
     private String name;
 
     @Column
+    @NotEmpty(message = "Поле не должно быть пустым!")
     private String password;
 
     @Column
+    @NotEmpty(message = "Поле не должно быть пустым!")
     private String email;
 
     @Column
+    @Min(value = 1, message = "Возраст должен быть больше 0!")
     private int age;
 
     @ManyToMany(fetch = FetchType.EAGER)
