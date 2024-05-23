@@ -25,7 +25,6 @@ function loadUsers() {
                 tbody.append(userRow);
             });
 
-            // обработчики событий после создания элементов
             $('.btn-edit').click(function () {
                 let userId = $(this).data('id');
                 $.ajax({
@@ -70,7 +69,6 @@ function loadUsers() {
     });
 }
 
-// загрузка пользователей
 loadUsers();
 
 // форма добавления нового пользователя
