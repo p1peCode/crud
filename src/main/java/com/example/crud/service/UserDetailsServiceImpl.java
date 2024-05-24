@@ -52,17 +52,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (optionalUser.isPresent()) {
             return false;
         }
-        user.setName(user.getName());
-        user.setEmail(user.getEmail());
+        /*user.setName(user.getName());
+        user.setLastName(user.getLastName());
         user.setAge(user.getAge());
+        user.setEmail(user.getEmail());*/
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
     }
 
     public void updateUser(User updatedUser) {
-        User newUser = findUserById(updatedUser.getId());
+        User newUser = userRepository.findById(updatedUser.getId()).get();
         newUser.setName(updatedUser.getName());
+        newUser.setLastName(updatedUser.getLastName());
         newUser.setAge(updatedUser.getAge());
         newUser.setEmail(updatedUser.getEmail());
         newUser.setRoles(updatedUser.getRoles());

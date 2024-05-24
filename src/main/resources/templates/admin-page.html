@@ -103,7 +103,7 @@
                                                         <div class="form-group">
                                                             <label for="InputLastName">Last Name</label>
                                                             <input type="text" class="form-control" id="InputLastName"
-                                                                   placeholder="Enter last name" name="lastname">
+                                                                   placeholder="Enter last name" name="lastName">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="InputAge">Age</label>
@@ -200,16 +200,16 @@
                     </div>
                     <div class="form-group">
                         <label for="ModalInputLastName">Last Name</label>
-                        <input type="text" class="form-control" id="ModalInputLastName" value="two name"
-                               name="lastname">
+                        <input type="text" class="form-control" id="ModalInputLastName" value="last name"
+                               name="lastName">
                     </div>
                     <div class="form-group">
                         <label for="ModalInputAge">Age</label>
-                        <input type="text" class="form-control" id="ModalInputAge" value=123 name="age">
+                        <input type="text" class="form-control" id="ModalInputAge" value=1 name="age">
                     </div>
                     <div class="form-group">
                         <label for="ModalInputEmail">Email</label>
-                        <input type="email" class="form-control" id="ModalInputEmail" value="e@email" name="email">
+                        <input type="email" class="form-control" id="ModalInputEmail" value="email@email" name="email">
                     </div>
                     <div class="form-group">
                         <label for="ModalInputPassword">Password</label>
@@ -218,8 +218,8 @@
                     <div class="form-group">
                         <label for="ModalInputRole">Role</label>
                         <select multiple class="form-control" id="ModalInputRole">
-                            <option>ADMIN</option>
-                            <option>USER</option>
+                            <option value="ROLE_ADMIN">ADMIN</option>
+                            <option value="ROLE_USER">USER</option>
                         </select>
                     </div>
                 </form>
@@ -253,15 +253,15 @@
                     </div>
                     <div class="form-group">
                         <label for="ModalLastNameDelete">Last Name</label>
-                        <input type="text" class="form-control" id="ModalLastNameDelete" value="two name" readonly>
+                        <input type="text" class="form-control" id="ModalLastNameDelete" value="last name" readonly>
                     </div>
                     <div class="form-group">
                         <label for="ModalAgeDelete">Age</label>
-                        <input type="text" class="form-control" id="ModalAgeDelete" value=322 readonly>
+                        <input type="text" class="form-control" id="ModalAgeDelete" value=1 readonly>
                     </div>
                     <div class="form-group">
                         <label for="ModalEmailDelete">Email</label>
-                        <input type="email" class="form-control" id="ModalEmailDelete" value="e@email" readonly>
+                        <input type="email" class="form-control" id="ModalEmailDelete" value="email@email" readonly>
                     </div>
                     <div class="form-group">
                         <label for="ModalRoleDelete">Role</label>
@@ -280,6 +280,6 @@
     </div>
 </div>
 
-<script src="../static/js/admin.js"></script>
+<script src="/js/admin.js"></script>
 </body>
 </html>
