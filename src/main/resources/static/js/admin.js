@@ -34,13 +34,11 @@ function loadUsers() {
                     success: function (user) {
                         console.log(user);
                         let form = $('#modalEditUserForm');
-                        // Заполнение полей формы данными пользователя
                         form.find('#ModalInputId').val(user.id);
                         form.find('#ModalInputFirstName').val(user.name);
                         form.find('#ModalInputLastName').val(user.lastName);
                         form.find('#ModalInputAge').val(user.age);
                         form.find('#ModalInputEmail').val(user.email);
-                        //form.find('#ModalInputRole').val(user.roles.map(r => r.role).join(', '));
                         let roleSelect = form.find('#ModalInputRole');
                         roleSelect.empty();
                         ['ROLE_ADMIN', 'ROLE_USER'].forEach(role => {
@@ -84,67 +82,57 @@ function loadUsers() {
 loadUsers();
 
 // форма добавления нового пользователя
-$('#newUserForm').submit(function (event) {
+$('#addUser').click(function (event) {
     event.preventDefault();
-    let roleInput = $('#InputRole');
-    let roles;
-    if (roleInput.is('select') && roleInput.prop('multiple')) {
-        roles = roleInput.val();
-        roles = roles.map(role => role.trim());
-    } else {
-        roles = roleInput.val().split(',').map(role => role.trim());
-    }
-    let newUser = {
-        name: $('#InputFirstName').val(),
-        lastName: $('#InputLastName').val(),
-        age: $('#InputAge').val(),
-        email: $('#InputEmail').val(),
-        password: $('#InputPassword').val(),
-        roles: roles
-    };
+
+    let user = {};
+
+    $('#newUserForm').find('input').each(function () {
+        let attr = $(this).attr('name');
+        user[attr] = $(this).val();
+    });
+
+    user['roles'] = $('#newUserForm').find('select').val().map(role => ({role}));
+
     $.ajax({
-        url: './admin',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(newUser),
+        url: "./admin",
+        type: "POST",
+        data: JSON.stringify(user),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
         success: function () {
             loadUsers();
-            $('#newUserForm')[0].reset();
+            window.location.href = '/admin';
         },
-        error: function (error) {
-            console.error("Error of adding user:", error);
+        error: function (xhr, status, error) {
+            console.error('Error adding new user:', status, error);
         }
     });
 });
 
 // обработчик кнопки сохранения редактирования пользователя
-$('#saveEditUser').click(function () {
-    let userId = $('#ModalInputId').val();
-    let selectedRoles = $('#ModalInputRole').val();
-    let updatedUser = {
-        id: userId,
-        name: $('#ModalInputFirstName').val(),
-        lastName: $('#ModalInputLastName').val(),
-        age: $('#ModalInputAge').val(),
-        email: $('#ModalInputEmail').val(),
-        password: $('#ModalInputPassword').val(),
-        roles: selectedRoles.map(role => ({ role: role.trim() }))
-        //roles: $('#ModalInputRole').val().split(',').map(role => role.trim())
-    };
+$('#saveEditUser').click(function (event) {
+    let user = {};
 
-    console.log('Updating user:', updatedUser);
+    $('#modalEditUserForm').find('input').each(function () {
+        let attr = $(this).attr('name');
+        user[attr] = $(this).val();
+    });
+
+    user['roles'] = $('#modalEditUserForm').find('select').val().map(role => ({role}));
 
     $.ajax({
-        url: '/admin/users/' + userId,
-        type: 'PATCH',
-        contentType: 'application/json',
-        data: JSON.stringify(updatedUser),
+        url: "/admin/users/" + user.id,
+        type: "PATCH",
+        data: JSON.stringify(user),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
         success: function () {
-            $('#ModalEditUser').modal('hide');
             loadUsers();
+            $('#ModalEditUser').modal('hide');
         },
-        error: function (error) {
-            console.error("Error of updating user:", error);
+        error: function (xhr, status, error) {
+            console.error('Error of adding new user:', status, error);
         }
     });
 });
@@ -164,3 +152,41 @@ $('#confirmDeleteUser').click(function () {
         }
     });
 });
+
+function adminNavigationPanel(user) {
+    let email = `<strong>${user.email}</strong>`;
+    let roles = user.roles.map(role => role.role.replace('ROLE_', '')).join(', ');
+    let content = `${email} with roles: ${roles}`;
+    $("#adminNavPanel").html(content);
+}
+
+currentUser();
+function currentUser() {
+    $.ajax({
+        url: '/user/me',
+        method: 'GET',
+        dataType: 'json',
+        success: function(user) {
+            adminNavigationPanel(user);
+            TableOfCurrentUser(user);
+        },
+        error: function(error) {
+            console.error('Error of loading current user:', error);
+        }
+    });
+}
+
+function TableOfCurrentUser(user) {
+    let roles = user.roles.map(role => role.role).join(', ');
+    let userRow = `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.lastName}</td>
+                    <td>${user.age}</td>
+                    <td>${user.email}</td>
+                    <td>${roles}</td>
+                </tr>
+            `;
+    $('#currentUser').html(userRow);
+}

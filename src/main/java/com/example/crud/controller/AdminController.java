@@ -1,5 +1,7 @@
 package com.example.crud.controller;
 
+import com.example.crud.dto.UserDTO;
+import com.example.crud.mapper.UserMapper;
 import com.example.crud.model.User;
 import com.example.crud.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,28 +40,26 @@ public class AdminController {
 
     @GetMapping("/allUsers")
     @ResponseBody
-    public List<User> getAllUsers() {
-        return userDetailsServiceImpl.findAllUsers().stream().toList();
+    public List<UserDTO> getAllUsers() {
+        return userDetailsServiceImpl.findAllUsers().stream().map(UserMapper::entityToDTO).toList();
     }
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid User user, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> {
-                System.out.println(error.getDefaultMessage());
-            });
             return ResponseEntity.badRequest().build();
         }
+        User user = UserMapper.DTOToEntity(userDTO);
         userDetailsServiceImpl.saveUser(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/users/{id}")
-    public ResponseEntity<HttpStatus> updateUser(@PathVariable Long id, @RequestBody @Valid User user, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateUser(@PathVariable Long id, @RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
-        userDetailsServiceImpl.updateUser(user);
+        userDetailsServiceImpl.updateUser(UserMapper.DTOToEntity(userDTO));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

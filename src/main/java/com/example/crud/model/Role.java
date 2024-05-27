@@ -1,6 +1,5 @@
 package com.example.crud.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

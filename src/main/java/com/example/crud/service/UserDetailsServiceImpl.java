@@ -1,10 +1,8 @@
 package com.example.crud.service;
 
-import com.example.crud.model.Role;
 import com.example.crud.model.User;
 import com.example.crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -52,10 +49,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (optionalUser.isPresent()) {
             return false;
         }
-        /*user.setName(user.getName());
-        user.setLastName(user.getLastName());
-        user.setAge(user.getAge());
-        user.setEmail(user.getEmail());*/
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
@@ -73,12 +66,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public void delete(Long id) {
         userRepository.deleteById(id);
-    }
-
-    public boolean isUser(User user, Authentication authentication) {
-        Role role = new Role(2L, "ROLE_USER");
-        User authenticated = (User) authentication.getPrincipal();
-        Set<Role> userRole = authenticated.getRoles();
-        return userRole.contains(role);
     }
 }
