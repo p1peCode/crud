@@ -4,8 +4,10 @@ $(document).ready(function() {
         method: 'GET',
         dataType: 'json',
         success: function(user) {
-            userNavigationPanel(user)
+            console.log(user);
+            userNavigationPanel(user);
             let roles = user.roles.map(role => role.role).join(', ');
+            let weatherInfo = user.humidity ? "&#x2602;" : "&#x2600;";
             let userRow = `
                 <tr>
                     <td>${user.id}</td>
@@ -13,6 +15,8 @@ $(document).ready(function() {
                     <td>${user.lastName}</td>
                     <td>${user.age}</td>
                     <td>${user.email}</td>
+                    <td>${user.address}</td>
+                    <td>${weatherInfo}</td>
                     <td>${roles}</td>
                 </tr>
             `;

@@ -50,12 +50,15 @@ public class AdminController {
             return ResponseEntity.badRequest().build();
         }
         User user = UserMapper.DTOToEntity(userDTO);
-        userDetailsServiceImpl.saveUser(user);
+        boolean isSaved = userDetailsServiceImpl.saveUser(user);
+        if (!isSaved) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/users/{id}")
-    public ResponseEntity<HttpStatus> updateUser(@PathVariable Long id, @RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }

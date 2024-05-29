@@ -17,6 +17,7 @@ function loadUsers() {
                             <td>${user.lastName}</td>
                             <td>${user.age}</td>
                             <td>${user.email}</td>
+                            <td>${user.address}</td>
                             <td>${roles}</td>
                             <td><button type="button" class="btn btn-info btn-edit" data-id="${user.id}" data-toggle="modal" data-target="#ModalEditUser">Edit</button></td>
                             <td><button class="btn btn-danger btn-delete" data-id="${user.id}" data-toggle="modal" data-target="#ModalDeleteUserCentral">Delete</button></td>
@@ -39,6 +40,7 @@ function loadUsers() {
                         form.find('#ModalInputLastName').val(user.lastName);
                         form.find('#ModalInputAge').val(user.age);
                         form.find('#ModalInputEmail').val(user.email);
+                        form.find('#ModalInputAddress').val(user.address);
                         let roleSelect = form.find('#ModalInputRole');
                         roleSelect.empty();
                         ['ROLE_ADMIN', 'ROLE_USER'].forEach(role => {
@@ -67,6 +69,7 @@ function loadUsers() {
                         $('#ModalLastNameDelete').val(user.lastName);
                         $('#ModalAgeDelete').val(user.age);
                         $('#ModalEmailDelete').val(user.email);
+                        $('#ModalAddressDelete').val(user.address);
                         $('#ModalRoleDelete').val(user.roles.map(r => r.role).join(', '));
                         $('#ModalDeleteUserCentral').modal('show');
                     }
@@ -178,6 +181,7 @@ function currentUser() {
 
 function TableOfCurrentUser(user) {
     let roles = user.roles.map(role => role.role).join(', ');
+    let weatherInfo = user.humidity ? "&#x2602;" : "&#x2600;";
     let userRow = `
                 <tr>
                     <td>${user.id}</td>
@@ -185,6 +189,8 @@ function TableOfCurrentUser(user) {
                     <td>${user.lastName}</td>
                     <td>${user.age}</td>
                     <td>${user.email}</td>
+                    <td>${user.address}</td>
+                    <td>${weatherInfo}</td>
                     <td>${roles}</td>
                 </tr>
             `;

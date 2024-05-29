@@ -60,6 +60,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         newUser.setLastName(updatedUser.getLastName());
         newUser.setAge(updatedUser.getAge());
         newUser.setEmail(updatedUser.getEmail());
+        newUser.setAddress(updatedUser.getAddress());
         newUser.setRoles(updatedUser.getRoles());
         userRepository.save(newUser);
     }

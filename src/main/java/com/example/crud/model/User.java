@@ -45,6 +45,10 @@ public class User implements UserDetails {
     @Min(value = 1, message = "Возраст должен быть больше 0!")
     private int age;
 
+    @Column
+    @NotEmpty(message = "Поле не должно быть пустым!")
+    private String address;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
