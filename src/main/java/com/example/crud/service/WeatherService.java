@@ -1,8 +1,10 @@
 package com.example.crud.service;
 
+import com.example.crud.property.WeatherProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,11 +15,16 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class WeatherService {
 
-    private final String apiKey = "54ca9de8-9b8c-4792-8685-d2ede53ae3c5";
+    @Autowired
+    private final WeatherProperties weatherProperties;
 
-    private final String URL = "https://api.weather.yandex.ru/graphql/query";
+    public WeatherService(WeatherProperties weatherProperties) {
+        this.weatherProperties = weatherProperties;
+    }
 
     public boolean isHumidity(String coordinates) throws JsonProcessingException {
+        String URL = weatherProperties.getURL();
+        String apiKey = weatherProperties.getAPI_KEY();
         String[] partsOfCoordinates = coordinates.split(" ");
         String lat = partsOfCoordinates[1];
         String lon = partsOfCoordinates[0];

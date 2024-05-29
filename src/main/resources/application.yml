@@ -2,12 +2,20 @@ spring:
   application:
     name: mycrud
   datasource:
-    url: jdbc:postgresql://localhost:5432/crud
-    username: postgres
-    password: postgres
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
 server:
   port: 8080
+
+geocode:
+  url: https://geocode-maps.yandex.ru/1.x/
+  apiKey: ${GEOCODE_API_KEY}
+
+weather:
+  url: https://api.weather.yandex.ru/graphql/query
+  apiKey: ${WEATHER_API_KEY}

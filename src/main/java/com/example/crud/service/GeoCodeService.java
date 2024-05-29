@@ -1,20 +1,28 @@
 package com.example.crud.service;
 
+import com.example.crud.property.GeoCodeProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class GeoCodeService {
-    private final String API_KEY = "f8cff443-fab0-44b7-8533-d3868ca1f561";
-    private final String URL = "https://geocode-maps.yandex.ru/1.x/";
+
+    @Autowired
+    private final GeoCodeProperties geoCodeProperties;
+
+    public GeoCodeService(GeoCodeProperties geoCodeProperties) {
+        this.geoCodeProperties = geoCodeProperties;
+    }
 
     public String getCoordinates(String address) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
-
+        String URL = geoCodeProperties.getURL();
+        String API_KEY = geoCodeProperties.getAPI_KEY();
         StringBuilder urlBuilder = new StringBuilder(URL);
         urlBuilder.append("?apikey=").append(API_KEY)
                 .append("&geocode=").append(address)
