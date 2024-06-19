@@ -26,13 +26,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Java setup
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-      - name: MVN package
-        run: mvn clean package -DskipTests=true
       - name: Login to dockerHub
         uses: docker/login-action@v3
         with:
