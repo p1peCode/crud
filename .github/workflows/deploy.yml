@@ -55,7 +55,7 @@ jobs:
     needs: [build_and_push_images, push_compose]
     steps:
       - name: Connect and deploy
-        uses: appleboy/ssh-action@0.1.8
+        uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
