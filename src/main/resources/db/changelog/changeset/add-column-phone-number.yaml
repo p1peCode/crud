@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-phone-number
+      author: p1pe
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: phone_number
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
