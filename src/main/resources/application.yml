@@ -13,17 +13,17 @@ spring:
         show_sql: true
         hbm2ddl:
           auto: none
-  liquibase:
-    url: ${DB_URL}
-    user: ${DB_USER}
-    password: ${DB_PASSWORD}
+  # liquibase:
+  #  url: ${DB_URL}
+   # user: ${DB_USER}
+    #password: ${DB_PASSWORD}
 server:
   port: 8080
 
-geocode:
-  url: https://geocode-maps.yandex.ru/1.x/
-  apiKey: ${GEOCODE_API_KEY}
+#geocode:
+ # url: https://geocode-maps.yandex.ru/1.x/
+  #apiKey: ${GEOCODE_API_KEY}
 
-weather:
-  url: https://api.weather.yandex.ru/graphql/query
-  apiKey: ${WEATHER_API_KEY}
+#weather:
+  #url: https://api.weather.yandex.ru/graphql/query
+  #apiKey: ${WEATHER_API_KEY}
